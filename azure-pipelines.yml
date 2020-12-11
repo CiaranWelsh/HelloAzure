@@ -33,6 +33,15 @@ stages:
               cmake -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR)/$(BUILD_TYPE) $(SOURCE_DIR)
               echo "running cmake build command"
               cmake --build . --target install --config $(BUILD_TYPE) -j 12 
+  - stage: BuildTests
+    displayName: BuildTests 
+    jobs: 
+      - job: RunCTestLinux 
+        dependsOn: BuildLinux 
+        steps: 
+          - script: |
+              cd $(BUILD_DIR)
+              ctest
 
         
 
