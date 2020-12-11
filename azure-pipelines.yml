@@ -1,0 +1,46 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+    - master 
+variables:
+  SOURCE_DIR: '$(System.DefaultWorkingDirectory)'
+  BUILD_DIR: '$(SOURCE_DIR)/build'
+  INSTALL_DIR: '$(SOURCE_DIR)/install'
+
+stages:
+  - stage: Build 
+    displayName: Build 
+    jobs:
+      - job: BuildLinux 
+        pool: 
+          vmImage: ubuntu-latest
+        strategy:
+          matrix:
+            Release:
+              BUILD_TYPE: 'Release'
+            Debug:
+              BUILD_TYPE: 'Debug'
+        steps:
+          - script: | 
+              echo "mkdir BUILD_DIR $(BUILD_DIR)"
+              mkdir $(BUILD_DIR)
+              echo "cd build directory "
+              cd $(BUILD_DIR)
+              echo " Run configure command"
+              cmake -DCMAKE_INSTALL_PREFIX=$(INSTALL)/$(BUILD_TYPE) $(BUILD_DIR)
+              echo "running cmake build command"
+              cmake --build . --target install --config $(BUILD_TYPE) -j 12 
+
+        
+
+
+
+
+
+
+
+
+
