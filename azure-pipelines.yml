@@ -35,7 +35,7 @@ stages:
               cmake --build . --target install --config $(BUILD_TYPE) -j 12 
           - task: CopyFiles@2
             inputs:
-              contents: '$(SOURCE_DIR)'
+              contents: '$(SOURCE_DIR)/**'
               targetFolder: $(Build.ArtifactStagingDirectory)
           - publish: $(Build.ArtifactStagingDirectory)
             artifact: HelloAzure-ubuntu
