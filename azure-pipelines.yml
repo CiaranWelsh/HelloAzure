@@ -42,6 +42,8 @@ stages:
   - stage: BuildTests
     dependsOn: Build
     displayName: BuildTests 
+    variables:
+      ROOT: $(Pipeline.Workspace)/HelloAzure-buildtree-$(BUILD_TYPE)
     jobs: 
       - job: RunCTestLinux 
         strategy:
@@ -55,7 +57,10 @@ stages:
           - download: current
             artifact: HelloAzure-buildtree-$(BUILD_TYPE)
           - script: |
-              cd $(BUILD_DIR)
+              echo "Changing to Pipeline.Workspace: HelloAzure-buildtree-$(BUILD_TYPE)"
+              cd $(Pipeline.Workspace)/HelloAzure-buildtree-$(BUILD_TYPE)
+              echo "ROOT: $(ROOT)"
+              cd $(ROOT)
               ctest -C $(BUILD_TYPE)
 
         
