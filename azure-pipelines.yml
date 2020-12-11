@@ -60,8 +60,8 @@ stages:
               echo "Changing to Pipeline.Workspace: HelloAzure-buildtree-$(BUILD_TYPE)"
               cd $(Pipeline.Workspace)/HelloAzure-buildtree-$(BUILD_TYPE)
               echo "ROOT: $(ROOT)"
-              cd $(ROOT)
               echo "LS HERE: $(ls)"
+              cd $(ROOT)/build
               ctest -C $(BUILD_TYPE)
 
         
