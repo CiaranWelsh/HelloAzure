@@ -37,7 +37,6 @@ stages:
     displayName: BuildTests 
     jobs: 
       - job: RunCTestLinux 
-        dependsOn: BuildLinux 
         steps: 
           - script: |
               cd $(BUILD_DIR)
