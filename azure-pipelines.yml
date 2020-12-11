@@ -57,7 +57,8 @@ stages:
           - checkout: 'none'
           - task: DownloadPipelineArtifact@2
             inputs: 
-              source: HelloAzure-$(BUILD_TYPE)
+              source: current
+              artefact: HelloAzure-$(BUILD_TYPE)
               path: $(SOURCE_DIR)
           - script: |
               echo "Surce drir $(SOURCE_DIR)"
