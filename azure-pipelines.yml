@@ -61,6 +61,7 @@ stages:
               cd $(Pipeline.Workspace)/HelloAzure-buildtree-$(BUILD_TYPE)
               echo "ROOT: $(ROOT)"
               cd $(ROOT)
+              echo "LS HERE: $(ls)"
               ctest -C $(BUILD_TYPE)
 
         
