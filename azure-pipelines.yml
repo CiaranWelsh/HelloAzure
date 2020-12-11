@@ -61,7 +61,7 @@ stages:
               path: $(SOURCE_DIR)
           - script: |
               echo "chanigng to build dir: $(SOURCE_DIR)/HelloAzure-$(BUILD_TYPE)"
-              cd $(SOURCE_DIR)/HelloAzure-$(BUILD_TYPE)
+              cd $(SOURCE_DIR)/HelloAzure-$(BUILD_TYPE)/build
               echo "lsing : $(ls)"
               ctest -C $(BUILD_TYPE)
 
