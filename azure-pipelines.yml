@@ -38,7 +38,7 @@ stages:
               contents: '$(SOURCE_DIR)/**'
               targetFolder: $(Build.ArtifactStagingDirectory)
           - publish: $(Build.ArtifactStagingDirectory)
-            artifact: HelloAzure-ubuntu
+            artifact: HelloAzure-buildtree-$(BUILD_TYPE)
   - stage: BuildTests
     dependsOn: Build
     displayName: BuildTests 
@@ -51,8 +51,9 @@ stages:
             Debug:
               BUILD_TYPE: 'Debug'
         steps: 
+          - checkout: 'none'
           - download: current
-            artifact: HelloAzure-ubuntu
+            artifact: HelloAzure-buildtree-$(BUILD_TYPE)
           - script: |
               cd $(BUILD_DIR)
               ctest -C $(BUILD_TYPE)
