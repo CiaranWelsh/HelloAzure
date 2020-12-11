@@ -13,10 +13,10 @@ variables:
 stages:
   - stage: Build 
     displayName: Build 
+    pool: 
+      vmImage: ubuntu-latest    
     jobs:
       - job: BuildLinux 
-        pool: 
-          vmImage: ubuntu-latest
         strategy:
           matrix:
             Release:
@@ -34,6 +34,7 @@ stages:
               echo "running cmake build command"
               cmake --build . --target install --config $(BUILD_TYPE) -j 12 
   - stage: BuildTests
+    dependsOn: Build
     displayName: BuildTests 
     jobs: 
       - job: RunCTestLinux 
