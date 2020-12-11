@@ -33,6 +33,7 @@ stages:
               cmake -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR)/$(BUILD_TYPE) $(SOURCE_DIR)
               echo "running cmake build command"
               cmake --build . --target install --config $(BUILD_TYPE) -j 12 
+              ctest
           - task: CopyFiles@2
             inputs:
               contents: '$(SOURCE_DIR)/**'
