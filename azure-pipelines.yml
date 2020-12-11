@@ -55,7 +55,7 @@ stages:
               BUILD_TYPE: 'Debug'
         steps: 
           - checkout: 'none'
-          - download: current
+          - download: $(SOURCE_DIR)
             artifact: HelloAzure-buildtree-$(BUILD_TYPE)
           - script: |
               echo "Changing to Pipeline.Workspace: HelloAzure-buildtree-$(BUILD_TYPE) which is the same as root $(ROOT)"
