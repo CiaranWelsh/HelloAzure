@@ -60,12 +60,10 @@ stages:
               source: current
               path: $(SOURCE_DIR)
           - script: |
-              echo "Changing to Pipeline.Workspace: HelloAzure-buildtree-$(BUILD_TYPE) which is the same as root $(ROOT)"
-              cd $(ROOT)
-              echo "ROOT: $(ROOT)"
-              echo "LS HERE: $(ls)"
-              echo "LS root/build: $(ls build)"
-              cd $(ROOT)/build
+              echo "chanigng to build dir: $(BUILD_DIR)"
+
+              cd $(BUILD_DIR)
+              echo "lsing : $(ls)"
               ctest -C $(BUILD_TYPE)
 
         
