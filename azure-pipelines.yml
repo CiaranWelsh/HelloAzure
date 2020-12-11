@@ -57,12 +57,14 @@ stages:
           - checkout: 'none'
           - task: DownloadPipelineArtifact@2
             inputs: 
-              source: current
+              source: HelloAzure-$(BUILD_TYPE)
               path: $(SOURCE_DIR)
           - script: |
+              echo "Surce drir $(SOURCE_DIR)"
+              echo "ls $(ls)"
               echo "chanigng to build dir: $(SOURCE_DIR)/HelloAzure-$(BUILD_TYPE)"
-              cd $(SOURCE_DIR)/HelloAzure-$(BUILD_TYPE)/build
-              mv */** ..
+              cd $(SOURCE_DIR)/build
+              # cmake -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR)/$(BUILD_TYPE) $(SOURCE_DIR) -DBUILD_TESTS=ON
               echo "lsing : $(ls)"
               ctest -C $(BUILD_TYPE)
 
