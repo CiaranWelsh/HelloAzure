@@ -57,12 +57,13 @@ stages:
           - download: current
             artifact: HelloAzure-buildtree-$(BUILD_TYPE)
           - script: |
-              echo "Changing to Pipeline.Workspace: HelloAzure-buildtree-$(BUILD_TYPE)"
-              cd $(Pipeline.Workspace)/HelloAzure-buildtree-$(BUILD_TYPE)
+              echo "Changing to Pipeline.Workspace: HelloAzure-buildtree-$(BUILD_TYPE) which is the same as root $(ROOT)"
+              cd $(ROOT)
               echo "ROOT: $(ROOT)"
               echo "LS HERE: $(ls)"
+              echo "LS root/build: $(ls build)"
               cd $(ROOT)/build
-              ctest -C $(BUILD_TYPE)
+              ctest
 
         
 
