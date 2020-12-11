@@ -6,6 +6,11 @@ set(CMAKE_CXX_STANDARD 14)
 set(HELLO_AZURE_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
 add_subdirectory(src)
-add_subdirectory(test)
 
-install (DIRECTORY include DESTINATION .)
+option(BUILD_TESTS "build the tests " OFF)
+
+if (BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(test)
+endif ()
+install(DIRECTORY include DESTINATION .)
