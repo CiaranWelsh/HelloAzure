@@ -80,9 +80,8 @@ stages:
               echo "cd build dir"
               cd $(BUILD_DIR)
               echo "pwd: $(pwd)"
-              echo "ls: $(ls)"    
-
-              ctest -C $(BUILD_TYPE)
+              echo "ls: $(ls -R)"    
+              ctest 
 
         
 
