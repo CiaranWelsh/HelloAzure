@@ -64,17 +64,17 @@ stages:
               echo "cd source dir"
               cd $(SOURCE_DIR)
               echo "pwd: $(pwd)"
-              echo "ls: $(ls)"    
+              echo "ls:\n\n $(ls)\n\n"    
 
               echo "cd install dir"
               cd $(INSTALL_DIR)
               echo "pwd: $(pwd)"
-              echo "ls: $(ls)"
+              echo "ls:\n\n $(ls)\n\n"    
 
               echo "cd build dir"
               cd $(BUILD_DIR)
               echo "pwd: $(pwd)"
-              echo "ls: $(ls)"        
+              echo "ls:\n\n $(ls)\n\n"    
 
               ctest -C $(BUILD_TYPE)
 
