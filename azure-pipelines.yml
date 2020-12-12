@@ -65,7 +65,7 @@ stages:
             inputs: 
               source: current
               artifact: HelloAzure-$(BUILD_TYPE)
-              path: $(dirname $(BUILD_DIR))
+              path: '$(dirname $(BUILD_DIR))'
           - script: |
               echo "cd source dir"
               cd $(SOURCE_DIR)
