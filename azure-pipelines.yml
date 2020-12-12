@@ -9,6 +9,9 @@ variables:
   SOURCE_DIR: '$(System.DefaultWorkingDirectory)'
   BUILD_DIR: '$(SOURCE_DIR)/build'
   INSTALL_DIR: '$(SOURCE_DIR)/install'
+  SWIG_SOURCE_DIR: '$(Agent.BuildDirectory)/swig'
+  SWIG_INSTALL_PREFIX: '$(SWIG_SOURCE_DIR)/install-azure'
+  SWIG_EXECUTABLE: '$(SWIG_INSTALL_PREFIX)/swig'
 
 stages:
   - stage: Build 
