@@ -55,26 +55,32 @@ stages:
               BUILD_TYPE: 'Debug'
         steps: 
           - checkout: 'none'
+          - script: |
+              mkdir -p $(SOURCE_DIR)
+              mkdir -p $(BUILD_DIR)
+              mkdir -p $(INSTALL_DIR)
+            displayName: Make directories
           - task: DownloadPipelineArtifact@2
+
             inputs: 
               source: current
               artifact: HelloAzure-$(BUILD_TYPE)
-              path: $(SOURCE_DIR)
+              path: $(BUILD_DIR)
           - script: |
               echo "cd source dir"
               cd $(SOURCE_DIR)
               echo "pwd: $(pwd)"
-              echo "ls:\n\n $(ls)\n\n"    
+              echo "ls: $(ls)"    
 
               echo "cd install dir"
               cd $(INSTALL_DIR)
               echo "pwd: $(pwd)"
-              echo "ls:\n\n $(ls)\n\n"    
+              echo "ls: $(ls)"    
 
               echo "cd build dir"
               cd $(BUILD_DIR)
               echo "pwd: $(pwd)"
-              echo "ls:\n\n $(ls)\n\n"    
+              echo "ls: $(ls)"    
 
               ctest -C $(BUILD_TYPE)
 
