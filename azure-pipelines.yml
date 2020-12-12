@@ -68,11 +68,11 @@ stages:
               # copy into parent of where you want it. 
               path: '$(SOURCE_DIR)'
           - script: |
-              chmod -R 755
               echo "cd source dir"
               cd $(SOURCE_DIR)
               echo "pwd: $(pwd)"
               echo "ls: $(ls)"    
+              chmod -R 755 .
 
               echo "cd install dir"
               cd $(INSTALL_DIR)
