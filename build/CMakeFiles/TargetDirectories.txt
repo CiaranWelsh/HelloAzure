@@ -1,0 +1,5 @@
+D:/HelloAzure/build/CMakeFiles/INSTALL.dir
+D:/HelloAzure/build/CMakeFiles/ALL_BUILD.dir
+D:/HelloAzure/build/CMakeFiles/ZERO_CHECK.dir
+D:/HelloAzure/build/src/CMakeFiles/hello-azure.dir
+D:/HelloAzure/build/src/CMakeFiles/INSTALL.dir
