@@ -58,7 +58,7 @@ stages:
           - task: DownloadPipelineArtifact@2
             inputs: 
               source: current
-              artefact: HelloAzure-$(BUILD_TYPE)
+              artifact: HelloAzure-$(BUILD_TYPE)
               path: $(SOURCE_DIR)
           - script: |
               echo "cd source dir"
@@ -75,7 +75,7 @@ stages:
               cd $(BUILD_DIR)
               echo "pwd: $(pwd)"
               echo "ls: $(ls)"        
-              
+
               ctest -C $(BUILD_TYPE)
 
         
