@@ -42,9 +42,7 @@ stages:
             artifact: HelloAzure-$(BUILD_TYPE)
   - stage: BuildTests
     dependsOn: Build
-    displayName: BuildTests 
-    variables:
-      ROOT: $(Pipeline.Workspace)/HelloAzure-$(BUILD_TYPE)
+    displayName: BuildTests  
     jobs: 
       - job: RunCTestLinux 
         strategy:
