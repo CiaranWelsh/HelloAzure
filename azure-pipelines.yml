@@ -144,12 +144,12 @@ stages:
           - task: CopyFiles@2
             inputs:
               contents: '$(SWIG_SOURCE_DIR)/*'
-              targetFolder: $(Build.ArtifactStagingDirectory)/swig-source-dir
+              targetFolder: $(Build.ArtifactStagingDirectory)/$(PythonName)/swig-source-dir
           - task: CopyFiles@2
             inputs:
               contents: '$(SWIG_INSTALL_DIR)/*'
-              targetFolder: $(Build.ArtifactStagingDirectory)/swig-install-dir
+              targetFolder: $(Build.ArtifactStagingDirectory)/$(PythonName)/swig-install-dir
             displayName:
-          - publish: $(Build.ArtifactStagingDirectory)-$(PythonName)
+          - publish: $(Build.ArtifactStagingDirectory)
             artifact: test-publish
             displayName: Publish Installed Atrifacts
