@@ -228,9 +228,9 @@ stages:
               ls
               $(CondaExecutable) create --quiet --yes --name $(PythonName) python=$(PythonVersion)
               echo "$(CondaExecutable)  env list: "
-
-#              $(CondaExecutable)  env list
-#              $(PipExecutable) install nose numpy
+              $(CondaExecutable)  env list
+              echo "running: $(PipExecutable) install numpy"
+              $(PipExecutable) install numpy
 #              echo "which python: $(which python)"
 #              echo "which conda: $(which conda)"
 #              python_exe="$(which python)"
