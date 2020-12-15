@@ -14,87 +14,155 @@ variables:
   SWIG_EXECUTABLE: '$(SWIG_INSTALL_PREFIX)/swig'
 
 stages:
-  - stage: Build 
-    displayName: Build 
-    pool: 
-      vmImage: ubuntu-latest    
-    jobs:
-      - job: BuildLinux 
-        strategy:
-          matrix:
-            Release:
-              BUILD_TYPE: 'Release'
-            Debug:
-              BUILD_TYPE: 'Debug'
-        steps:
-          - script: | 
-              echo "mkdir BUILD_DIR $(BUILD_DIR)"
-              mkdir $(BUILD_DIR)
-              echo "cd build directory "
-              cd $(BUILD_DIR)
-              echo " Run configure command"
-              cmake -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR)/$(BUILD_TYPE) $(SOURCE_DIR) -DBUILD_TESTS=ON
-              echo "running cmake build command"
-              cmake --build . --target install --config $(BUILD_TYPE) -j 12 
-              ctest
-          - task: CopyFiles@2
-            inputs:
-              contents: '$(BUILD_DIR)/**'
-              targetFolder: $(Build.ArtifactStagingDirectory)
-          - publish: $(Build.ArtifactStagingDirectory)
-            artifact: HelloAzure-$(BUILD_TYPE)
-  - stage: BuildTests
-    dependsOn: Build
-    displayName: BuildTests  
-    jobs: 
-      - job: RunCTestLinux 
-        strategy:
-          matrix:
-            Release:
-              BUILD_TYPE: 'Release'
-            Debug:
-              BUILD_TYPE: 'Debug'
-        steps: 
-          - checkout: 'none'
-          - script: |
-              mkdir -p $(SOURCE_DIR)
-              mkdir -p $(BUILD_DIR)
-              mkdir -p $(INSTALL_DIR)
-            displayName: Make directories
-          - task: DownloadPipelineArtifact@2
-            inputs: 
-              source: current
-              artifact: HelloAzure-$(BUILD_TYPE)
-              # copy into parent of where you want it. 
-              path: '$(SOURCE_DIR)'
-          - script: |
-              echo "cd source dir"
-              cd $(SOURCE_DIR)
-              echo "pwd: $(pwd)"
-              echo "ls: $(ls)"    
-              chmod -R 755 .
+#  - stage: Build
+#    displayName: Build
+#    pool:
+#      vmImage: ubuntu-latest
+#    jobs:
+#      - job: BuildLinux
+#        strategy:
+#          matrix:
+#            Release:
+#              BUILD_TYPE: 'Release'
+#            Debug:
+#              BUILD_TYPE: 'Debug'
+#        steps:
+#          - script: |
+#              echo "mkdir BUILD_DIR $(BUILD_DIR)"
+#              mkdir $(BUILD_DIR)
+#              echo "cd build directory "
+#              cd $(BUILD_DIR)
+#              echo " Run configure command"
+#              cmake -DCMAKE_INSTALL_PREFIX=$(INSTALL_DIR)/$(BUILD_TYPE) $(SOURCE_DIR) -DBUILD_TESTS=ON
+#              echo "running cmake build command"
+#              cmake --build . --target install --config $(BUILD_TYPE) -j 12
+#              ctest
+#          - task: CopyFiles@2
+#            inputs:
+#              contents: '$(BUILD_DIR)/**'
+#              targetFolder: $(Build.ArtifactStagingDirectory)
+#          - publish: $(Build.ArtifactStagingDirectory)
+#            artifact: HelloAzure-$(BUILD_TYPE)
+#  - stage: BuildTests
+#    dependsOn: Build
+#    displayName: BuildTests
+#    jobs:
+#      - job: RunCTestLinux
+#        strategy:
+#          matrix:
+#            Release:
+#              BUILD_TYPE: 'Release'
+#            Debug:
+#              BUILD_TYPE: 'Debug'
+#        steps:
+#          - checkout: 'none'
+#          - script: |
+#              mkdir -p $(SOURCE_DIR)
+#              mkdir -p $(BUILD_DIR)
+#              mkdir -p $(INSTALL_DIR)
+#            displayName: Make directories
+#          - task: DownloadPipelineArtifact@2
+#            inputs:
+#              source: current
+#              artifact: HelloAzure-$(BUILD_TYPE)
+#              # copy into parent of where you want it.
+#              path: '$(SOURCE_DIR)'
+#          - script: |
+#              echo "cd source dir"
+#              cd $(SOURCE_DIR)
+#              echo "pwd: $(pwd)"
+#              echo "ls: $(ls)"
+#              chmod -R 755 .
+#
+#              echo "cd install dir"
+#              cd $(INSTALL_DIR)
+#              echo "pwd: $(pwd)"
+#              echo "ls: $(ls)"
+#
+#              echo "cd build dir"
+#              cd $(BUILD_DIR)
+#              echo "pwd: $(pwd)"
+#              echo "ls: $(ls -R -lh)"
+#              ctest
+#
+#
+#  - stage: BuildSwig
+#    dependsOn: []
+#    jobs:
+#      - job: Linux
+#        timeoutInMinutes: "0"
+#        displayName: Linux
+#        continueOnError: "false"
+#        pool:
+#          vmImage: "ubuntu-18.04"
+#        strategy:
+#          matrix:
+#            py36:
+#              PythonVersion: 3.6
+#              PythonName: py36
+#            py37:
+#              PythonVersion: 3.7
+#              PythonName: py37
+#            py38:
+#              PythonVersion: 3.8
+#              PythonName: py38
+#        steps:
+#          - checkout: 'none'
+#          - bash: echo "##vso[task.prependpath]$CONDA/bin"
+#            displayName: Add conda to PATH
+#          - script: |
+#              echo "installing pcre"
+#              sudo apt install -y libpcre3 libpcre3-dev
+#              mkdir -p $(SWIG_SOURCE_DIR)
+#              echo "cd to swig source dir: $(SWIG_SOURCE_DIR)"
+#              cd $(SWIG_SOURCE_DIR)
+#              echo "ls"
+#              ls -lh
+#              wget -q https://sourceforge.net/projects/swig/files/swig/swig-3.0.0/swig-3.0.0.tar.gz $(SWIG_SOURCE_DIR)
+#              tar -xf swig-3.0.0.tar.gz
+#              ls -lh
+#              echo "Copying swig content from swig-3.0.0 to SWIG_SOURCE_DIR"
+#              mv swig-3.0.0/** $(SWIG_SOURCE_DIR)
+#              echo "ls"
+#              ls -lh
+#              echo "ls in swig source dir $(SWIG_SOURCE_DIR)"
+#              ls -lh
+#              ./configure --prefix=$(SWIG_INSTALL_PREFIX)
+#              make -j 12
+#              make install
+#              echo "ls in swig source dir $(SWIG_SOURCE_DIR)"
+#              ls
+#              echo "cd to swig install dir: $(SWIG_INSTALL_PREFIX)"
+#              cd $(SWIG_INSTALL_PREFIX)
+#              echo "ls from SWIG_INSTALL_PREFIX: $(SWIG_INSTALL_PREFIX)"
+#              ls
+#              if [ ! -f "$(SWIG_EXECUTABLE)" ]; then
+#                echo "didn not locate swig executable, exiting"
+#                exit
+#              fi
+#            displayName: Install Swig
+#          - task: CopyFiles@2
+#            inputs:
+#              contents: '$(SWIG_SOURCE_DIR)/*'
+#              targetFolder: $(Build.ArtifactStagingDirectory)/$(PythonName)/swig-source-dir
+#          - task: CopyFiles@2
+#            inputs:
+#              contents: '$(SWIG_INSTALL_DIR)/*'
+#              targetFolder: $(Build.ArtifactStagingDirectory)/$(PythonName)/swig-install-dir
+#            displayName:
+#          - publish: $(Build.ArtifactStagingDirectory)
+#            artifact: test-publish
+#            displayName: Publish Installed Atrifacts
 
-              echo "cd install dir"
-              cd $(INSTALL_DIR)
-              echo "pwd: $(pwd)"
-              echo "ls: $(ls)"    
-
-              echo "cd build dir"
-              cd $(BUILD_DIR)
-              echo "pwd: $(pwd)"
-              echo "ls: $(ls -R -lh)"    
-              ctest 
-
-
-  - stage: BuildSwig
+  - stage: Mac
     dependsOn: []
     jobs:
-      - job: Linux
+      - job: Mac
         timeoutInMinutes: "0"
-        displayName: Linux
+        displayName: Mac
         continueOnError: "false"
         pool:
-          vmImage: "ubuntu-18.04"
+          vmImage: "macos-10.15"
         strategy:
           matrix:
             py36:
@@ -107,49 +175,16 @@ stages:
               PythonVersion: 3.8
               PythonName: py38
         steps:
-          - checkout: 'none'
-          - bash: echo "##vso[task.prependpath]$CONDA/bin"
-            displayName: Add conda to PATH
+
           - script: |
-              echo "installing pcre"
-              sudo apt install -y libpcre3 libpcre3-dev
-              mkdir -p $(SWIG_SOURCE_DIR)
-              echo "cd to swig source dir: $(SWIG_SOURCE_DIR)"
-              cd $(SWIG_SOURCE_DIR)
-              echo "ls"
-              ls -lh
-              wget -q https://sourceforge.net/projects/swig/files/swig/swig-3.0.0/swig-3.0.0.tar.gz $(SWIG_SOURCE_DIR)
-              tar -xf swig-3.0.0.tar.gz
-              ls -lh
-              echo "Copying swig content from swig-3.0.0 to SWIG_SOURCE_DIR"
-              mv swig-3.0.0/** $(SWIG_SOURCE_DIR)
-              echo "ls"
-              ls -lh
-              echo "ls in swig source dir $(SWIG_SOURCE_DIR)"
-              ls -lh
-              ./configure --prefix=$(SWIG_INSTALL_PREFIX)
-              make -j 12
-              make install
-              echo "ls in swig source dir $(SWIG_SOURCE_DIR)"
-              ls
-              echo "cd to swig install dir: $(SWIG_INSTALL_PREFIX)"
-              cd $(SWIG_INSTALL_PREFIX)
-              echo "ls from SWIG_INSTALL_PREFIX: $(SWIG_INSTALL_PREFIX)"
-              ls
-              if [ ! -f "$(SWIG_EXECUTABLE)" ]; then
-                echo "didn not locate swig executable, exiting"
-                exit
-              fi
-            displayName: Install Swig
-          - task: CopyFiles@2
-            inputs:
-              contents: '$(SWIG_SOURCE_DIR)/*'
-              targetFolder: $(Build.ArtifactStagingDirectory)/$(PythonName)/swig-source-dir
-          - task: CopyFiles@2
-            inputs:
-              contents: '$(SWIG_INSTALL_DIR)/*'
-              targetFolder: $(Build.ArtifactStagingDirectory)/$(PythonName)/swig-install-dir
-            displayName:
-          - publish: $(Build.ArtifactStagingDirectory)
-            artifact: test-publish
-            displayName: Publish Installed Atrifacts
+              echo "downloading conda install script"
+              wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+              bash ./Miniconda3-latest-MacOSX-x86_64.sh -b -p $(SOURCE_DIR)/miniconda
+              echo "running miniconda install scriopt: $(CondaExecutable) create --name $(PythonName) python=$(PythonVersion)"
+              echo "$(CondaExecutable) create --name $(PythonName) python=$(PythonVersion)"
+              $(CondaExecutable) create --quiet --yes --name $(PythonName) python=$(PythonVersion)
+              echo "$(CondaExecutable) env list
+              $(CondaExecutable) env list
+              echo "$(PipExecutable) install numpy nose"
+              echo $(PipExecutable) install numpy nose
+            displayName: InstallConda
