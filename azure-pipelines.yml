@@ -220,8 +220,10 @@ stages:
               cd $(SOURCE_DIR)
               echo "ls"
               ls
-              echo "cd miniconda"
-              cd miniconda
+              which conda
+              cd $MinicondaRoot
+
+
               echo "ls"
               ls
               $(CondaExecutable) create --quiet --yes --name $(PythonName) python=$(PythonVersion)
