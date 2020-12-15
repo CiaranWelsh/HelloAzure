@@ -198,6 +198,9 @@ stages:
               echo "running miniconda install scriopt: $(CondaExecutable) create --name $(PythonName) python=$(PythonVersion)"
               echo "ls"
               ls -r
+              cd miniconda
+              echo "conda exe: $(CondaExecutable)"
+              $(CondaExecutable) -h
 #              echo "$(CondaExecutable) create --name $(PythonName) python=$(PythonVersion)"
 #              $(CondaExecutable) create --quiet --yes --name $(PythonName) python=$(PythonVersion)
 #              echo "$(CondaExecutable) env list
