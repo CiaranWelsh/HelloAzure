@@ -194,12 +194,12 @@ stages:
           - script: |
               echo "downloading conda install script"
               wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
-              bash ./Miniconda3-latest-MacOSX-x86_64.sh -b -p $(SOURCE_DIR)/miniconda
+              bash ./Miniconda3-latest-MacOSX-x86_64.sh -b -p "$(SOURCE_DIR)/miniconda"
               echo "running miniconda install scriopt: $(CondaExecutable) create --name $(PythonName) python=$(PythonVersion)"
-              echo "$(CondaExecutable) create --name $(PythonName) python=$(PythonVersion)"
-              $(CondaExecutable) create --quiet --yes --name $(PythonName) python=$(PythonVersion)
-              echo "$(CondaExecutable) env list
-              $(CondaExecutable) env list
-              echo "$(PipExecutable) install numpy nose"
-              echo $(PipExecutable) install numpy nose
+#              echo "$(CondaExecutable) create --name $(PythonName) python=$(PythonVersion)"
+#              $(CondaExecutable) create --quiet --yes --name $(PythonName) python=$(PythonVersion)
+#              echo "$(CondaExecutable) env list
+#              $(CondaExecutable) env list
+#              echo "$(PipExecutable) install numpy nose"
+#              echo $(PipExecutable) install numpy nose
             displayName: InstallConda
