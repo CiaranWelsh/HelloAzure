@@ -220,11 +220,16 @@ stages:
               cd $(SOURCE_DIR)
               echo "ls"
               ls
+              echo "cd miniconda"
+              cd miniconda
+              echo "ls"
+              ls
               $(CondaExecutable) create --quiet --yes --name $(PythonName) python=$(PythonVersion)
               echo "$(CondaExecutable)  env list: "
-              $(CondaExecutable)  env list
-              $(PipExecutable) install nose numpy
-              echo "which python: $(which python)"
-              echo "which conda: $(which conda)"
-              python_exe="$(which python)"
-              python_dir="$(dirname $(which python))"
+
+#              $(CondaExecutable)  env list
+#              $(PipExecutable) install nose numpy
+#              echo "which python: $(which python)"
+#              echo "which conda: $(which conda)"
+#              python_exe="$(which python)"
+#              python_dir="$(dirname $(which python))"
