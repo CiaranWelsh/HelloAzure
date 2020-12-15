@@ -162,7 +162,7 @@ stages:
         displayName: Mac
         continueOnError: "false"
         pool:
-          vmImage: "macos-10.15"
+          vmImage: "macOS-10.15"
         strategy:
           matrix:
             py36:
