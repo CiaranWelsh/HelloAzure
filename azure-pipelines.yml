@@ -179,7 +179,7 @@ stages:
           BUILD_DIR: '$(SOURCE_DIR)/build'
           INSTALL_DIR: '$(SOURCE_DIR)/roadrunner-$(Agent.OS)'
 
-          MinicondaRoot : '/use/local/Miniconda'
+          MinicondaRoot : '$(SOURCE_DIR)/miniconda'
           PythonRoot: '$(MinicondaRoot)/envs/$(PythonName)'
           PythonLibDir: '$(PythonRoot)/lib'
           PythonExecutable: '$(PythonRoot)/bin/python'
@@ -191,26 +191,30 @@ stages:
           MINICONDA_CACHE: 'false'
         steps:
 
-#          - script: |
-#              echo "downloading conda install script"
-#              wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
-#              bash ./Miniconda3-latest-MacOSX-x86_64.sh -b -p "$(SOURCE_DIR)/miniconda"
-#              echo "running miniconda install scriopt: $(CondaExecutable) create --name $(PythonName) python=$(PythonVersion)"
+          - script: |
+              echo "downloading conda install script"
+              wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+              bash ./Miniconda3-latest-MacOSX-x86_64.sh -b -p "$(SOURCE_DIR)/miniconda"
+              echo "running miniconda install scriopt: $(CondaExecutable) create --name $(PythonName) python=$(PythonVersion)"
+              echo "ls"
+              ls -r
 #              echo "$(CondaExecutable) create --name $(PythonName) python=$(PythonVersion)"
 #              $(CondaExecutable) create --quiet --yes --name $(PythonName) python=$(PythonVersion)
 #              echo "$(CondaExecutable) env list
 #              $(CondaExecutable) env list
 #              echo "$(PipExecutable) install numpy nose"
 #              echo $(PipExecutable) install numpy nose
-#            displayName: InstallConda
-          - bash: echo "##vso[task.prependpath]$CONDA/bin"
-            displayName: Add conda to PATH
-          # On Hosted macOS, the agent user doesn't have ownership of Miniconda's installation directory/
-          # We need to take ownership if we want to update conda or install packages globally
-          - bash: sudo chown -R $USER $CONDA
-            displayName: Take ownership of conda installation
+            displayName: InstallConda
           - script: |
+              echo "cd to source dir: $(SOURCE_DIR)"
+              cd $(SOURCE_DIR)
+              echo "ls"
+              ls
               $(CondaExecutable) create --quiet --yes --name $(PythonName) python=$(PythonVersion)
               echo "$(CondaExecutable)  env list: "
               $(CondaExecutable)  env list
               $(PipExecutable) install nose numpy
+              echo "which python: $(which python)"
+              echo "which conda: $(which conda)"
+              python_exe="$(which python)"
+              python_dir="$(dirname $(which python))"
