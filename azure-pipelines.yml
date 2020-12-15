@@ -201,7 +201,7 @@ stages:
               cd miniconda
               echo "conda exe: $(CondaExecutable)"
               $(CondaExecutable) -h
-#              echo "$(CondaExecutable) create --name $(PythonName) python=$(PythonVersion)"
+              echo "$(CondaExecutable) create --name $(PythonName) python=$(PythonVersion)"
               $(CondaExecutable) create --yes --name $(PythonName) python=$(PythonVersion)
               echo "$(CondaExecutable) env list
               $(CondaExecutable) env list
