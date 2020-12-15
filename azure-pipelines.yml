@@ -202,9 +202,9 @@ stages:
               echo "conda exe: $(CondaExecutable)"
               $(CondaExecutable) -h
 #              echo "$(CondaExecutable) create --name $(PythonName) python=$(PythonVersion)"
-#              $(CondaExecutable) create --quiet --yes --name $(PythonName) python=$(PythonVersion)
-#              echo "$(CondaExecutable) env list
-#              $(CondaExecutable) env list
+              $(CondaExecutable) create --yes --name $(PythonName) python=$(PythonVersion)
+              echo "$(CondaExecutable) env list
+              $(CondaExecutable) env list
 #              echo "$(PipExecutable) install numpy nose"
 #              echo $(PipExecutable) install numpy nose
             displayName: InstallConda
