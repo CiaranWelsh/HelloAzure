@@ -179,7 +179,7 @@ stages:
           BUILD_DIR: '$(SOURCE_DIR)/build'
           INSTALL_DIR: '$(SOURCE_DIR)/roadrunner-$(Agent.OS)'
 
-          MinicondaRoot : '$(SOURCE_DIR)/miniconda'
+          MinicondaRoot : '/usr/local/miniconda'
           PythonRoot: '$(MinicondaRoot)/envs/$(PythonName)'
           PythonLibDir: '$(PythonRoot)/lib'
           PythonExecutable: '$(PythonRoot)/bin/python'
